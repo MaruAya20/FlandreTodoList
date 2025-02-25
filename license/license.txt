@@ -1,0 +1,11 @@
+EN:
+Copyright (c) 2025. MaruAya20
+
+This work is licensed under the Creative Commons Attribution-NonCommercial 4.0 International License.
+You may not use the material for commercial purposes. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/4.0/.
+
+CN:
+Copyright (c) 2025. MaruAya20
+
+本作品采用知识共享 署名-非商业性使用 4.0 国际许可协议（CC BY-NC 4.0）进行许可。
+欲了解更多详细信息，请访问：https://creativecommons.org/licenses/by-nc/4.0/deed.zh

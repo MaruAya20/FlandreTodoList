@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoApp</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <div class="todo-app">
+        <div class="title">芙兰朵露的Todo App</div>
+       
+        <div class="todo-form">
+            <input class="todo-input" placeholder="add a Todo" type="text" id="todoInput">
+            <div class="todo-button" id="addTodoButton">add Todo</div>
+        </div>
+
+        <div id="todoList">
+            <!-- 待办事项将通过JS动态插入 -->
+        </div>
+
+        <div>
+            <div class="todo-text02">
+                <p>这是一个简单的待办事项应用程序，你可以添加、删除和标记待办事项为已完成。</p>
+                <p>点击待办事项前的复选框可以标记为已完成，点击右侧的删除按钮可以删除待办事项。</p>
+                <p>这个应用程序使用Electron构建，数据存储在本地文件中。</p>
+            </div>
+        </div>
+    </div>
+
+    <img class="Flandre01" src="./img/Flandre01.jpg" alt="">
+
+    <div class="IlluBox">
+        <div class="IlluText">
+            Illustrator:applecaramel_(acaramel)
+        </div>
+    </div>
+
+    <div class="Illu02Box">
+        <div class="Illu02Text">
+            三冬今足用，谁笑腹空虚。——汪洙《勤学》
+        </div>
+    </div>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+
+        // 加载待办事项
+        async function loadTodos() {
+            const todos = await ipcRenderer.invoke('get-todos');
+            const todoList = document.getElementById('todoList');
+            todoList.innerHTML = ''; // 清空当前列表
+
+            todos.forEach(todo => {
+                const todoItem = document.createElement('div');
+                todoItem.className = 'item';
+                if (todo.completed) {
+                    todoItem.classList.add('completed');
+                }
+
+                const todoContent = `
+                    <div>
+                        <input type="checkbox" ${todo.completed ? 'checked' : ''} class="todo-checkbox" data-id="${todo.id}" />
+                        <span class="name">${todo.content}</span>
+                    </div>
+                    <div class="del" data-id="${todo.id}"> del </div>
+                `;
+                todoItem.innerHTML = todoContent;
+                todoList.appendChild(todoItem);
+            });
+        }
+
+        // 添加待办事项
+        document.getElementById('addTodoButton').addEventListener('click', async () => {
+    const todoInput = document.getElementById('todoInput');
+    const content = todoInput.value.trim();
+    
+    if (!content) {
+        alert('请输入待办事项内容！');
+        return;
+    }
+    
+    console.log('Adding todo:', content);  // 打印输入内容
+    
+    await ipcRenderer.invoke('add-todo', content);
+    todoInput.value = ''; // 清空输入框
+    loadTodos(); // 刷新列表
+    });
+
+
+        // 更新待办事项状态
+        document.getElementById('todoList').addEventListener('click', async (e) => {
+            const target = e.target;
+            if (target.classList.contains('todo-checkbox')) {
+                const id = target.dataset.id;
+                const completed = target.checked;
+                await ipcRenderer.invoke('toggle-todo', id, completed);
+                loadTodos(); // 刷新列表
+            }
+        });
+
+        // 删除待办事项
+        document.getElementById('todoList').addEventListener('click', async (e) => {
+            const target = e.target;
+            if (target.classList.contains('del')) {
+                const id = target.dataset.id;
+                await ipcRenderer.invoke('delete-todo', id);
+                loadTodos(); // 刷新列表
+            }
+        });
+
+        // 初始化加载待办事项
+        loadTodos();
+    </script>
+</body>
+</html>

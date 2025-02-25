@@ -1,0 +1,42 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../JS"
+		},
+		{
+			"path": "../my-vue-app"
+		}
+	],
+	"settings": {
+		"background.fullscreen": {
+			"images": [
+				"file:///D:/Microsoft%20VS%20Code/backgrounds/ke-ta%20Star%20Sapphire.jpg"
+			],
+			"opacity": 0.13,
+			"size": "cover",
+			"position": "center",
+			"interval": 0,
+			"random": false
+		},
+		"background.enabled": true,
+		"background.editor": {
+			"useFront": true,
+			"style": {
+				"background-position": "100% 100%",
+				"background-size": "auto",
+				"opacity": 0.6
+			},
+			"styles": [
+				{},
+				{},
+				{}
+			],
+			"images": [],
+			"interval": 0,
+			"random": false
+		}
+	}
+}

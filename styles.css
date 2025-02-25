@@ -1,0 +1,131 @@
+.todo-text02{
+    padding-top: 10px;
+    text-align: center;
+    font-size: small;
+    opacity: 0.4;
+}
+.completed{
+    text-decoration: line-through;
+    opacity: 0.4;
+    
+}
+.del{
+    color: #ff000d;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+}
+.item{
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+    background-color: #f8d059;
+    border-radius: 20px;
+    width: 80%;
+    margin: 20px auto;
+    /* margin这里传两个参时代表上下，左右 */
+    /* 传四个参时代表上右下左（顺时针方向） */
+    padding: 16px;
+    box-shadow: #a3a543 0 8px 20px;
+    
+}
+.todo-button{
+    border: 1px solid #dfe1e5;
+    outline: none;
+    width: 15%;
+    height:52px;
+    border-radius:  0 20px 20px 0;
+    text-align: center;
+    background: linear-gradient(to right,#e0252f,#f8d059);  
+    line-height: 52px;
+    color: #ffff;
+    font-style: italic;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 700;
+}
+.todo-input{
+    border: 1px solid #dfe1e5;
+    outline: none;
+    width: 60%;
+    height:50px;
+    border-radius: 20px 0 0 20px;
+    padding-left: 15px;
+
+} 
+.todo-form{
+    margin-top: 20px;
+    margin-left: 30px;
+    display: flex;
+
+}
+.IlluText{
+    font-style:italic;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    color: hsla(91, 64%, 57%, 0.855);
+}
+.IlluBox{
+    background-color: #10a0de;
+    width: 98%;
+    box-sizing: border-box;
+    margin-left: 1%;
+    height: 50px;
+    padding-top: 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 25px;
+}
+.Flandre01{
+    border-radius: 10px;
+    margin-top: 20px;
+    max-width: 98%;
+    margin-left: 1%;
+    height: auto;
+}
+.title{
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+    /* margin-top: ;  margin塌陷，不讲细节*/
+
+}
+.todo-app{
+    /* 这个98%可以让画面自适应 */
+    width: 98%; 
+    overflow-y: auto;
+    box-sizing: border-box;
+    border-radius: 20px;
+    margin-top: 25px; 
+    margin-left: 1%;
+    padding-top: 30px;
+    background-color: #ffff;
+    padding-bottom: 30px;
+}
+body{           
+    /*借芙兰的颜色搞了个全局渐变 */
+    background: linear-gradient(to right,#e0252f,#f8d059);  
+}
+
+.Illu02Text{
+    font-style:italic;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    color: hsla(166, 82%, 55%, 0.855);
+}
+.Illu02Box{
+    background-color: #12485f;
+    width: 98%;
+    box-sizing: border-box;
+    margin-left: 1%;
+    height: 50px;
+    padding-top: 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 25px;
+}
