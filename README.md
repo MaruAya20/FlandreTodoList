@@ -8,8 +8,19 @@ This is a simple to-do list application where you can add, delete, and mark task
 Click the checkbox before a task to mark it as completed, and click the delete button on the right to remove a task.  
 This application is built with Electron, and data is stored in local files.
 
-# FAQ  
+# 1.1.0 ver Update!  
+A function have been loaded in to FlandreTodolist 1.1.0.ver —— howler-based music player!  
 
+An album titled <font color=#DC143C>'幻想遊戯 ＜眠＞'</font> created by <font color=#FF69B4>Marasy</font> was included!  
+
+![2025-02-2814-30-45-ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/233268cb-d68a-4cbe-9a02-9bfeaca06746)
+
+
+This is a music player feature that only supports sequential playback, you can click the button to play, pause, etc., or drag the two sliders on the right - to achieve the purpose of adjusting the progress and volume!  
+
+
+
+# FAQ  
   
 ## how can i install?  
 FlandreTodoList Setup 1.0.0.exe is an execution of installation. you can download it in releases
@@ -21,7 +32,7 @@ Sorry.i use to realize it but i the builder seems easily shutdown.in that case I
 
   
 ## mac?  
-Sorry, i will consider it while i having an macbook :P
+Sorry it dosen't exist, i will consider it while i having an macbook :P
 
   
 ## why the Language is Chinese?
@@ -42,6 +53,10 @@ Flandre Illustrator: applecaramel https://www.pixiv.net/users/9216952
 Icon Illustrator: dairi https://www.pixiv.net/users/4920496  
 
 thanks! you both drew the cute Flandre!!! (heart)  
+
+Music Composer: marasy https://marasy8.jp  
+
+Your music is magnificent! (heart too)
 
 else if causes confusion, please contact me!  
 
