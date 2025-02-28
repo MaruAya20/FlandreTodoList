@@ -127,5 +127,137 @@ body{
     padding-top: 10px;
     border-radius: 10px;
     margin-top: 20px;
-    margin-bottom: 25px;
+
+}
+.musicBox{
+    background-color: #82d9f3;
+    height:150px;
+    width: 98%;
+    box-sizing: border-box;
+    margin-left: 1%;
+    border-radius: 10px;
+    padding-top: 17px;
+}
+
+.AudioBox{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #50be48;
+    width: 96%;
+    box-sizing: border-box;
+    height: 50px;
+    margin-left: 2%;
+    border-radius: 10px;    
+    
+}
+.AudioBox01{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #83cb53;
+    width: 96%;
+    box-sizing: border-box;
+    height: 50px;
+    margin-left: 2%;
+    border-radius: 10px;    
+    margin-top: 15px;
+}
+.ButtonBox{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width:40%;
+    margin-left: 1%;
+
+}   
+.playPauseBtn{
+    background-color: #66e36c;
+    width: 50%;
+    box-sizing: border-box;
+    margin-left: 1%;
+    height: 35px;
+    border-radius: 10px;
+    
+}
+.stopBtn{
+    background-color: #e3ab66;
+    width: 50%;
+    box-sizing: border-box;
+    margin-left: 1%;
+    height: 35px;
+    border-radius: 10px;
+}
+.volumeRange{
+    width: 50%;
+    box-sizing: border-box;
+    margin-right: 5%;
+    height: 40px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+
+}
+.rangeBox01{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #50be48;
+    width: 98%;
+    box-sizing: border-box;
+    margin-left: 1%;
+    height: 25px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-left: 3%;
+}
+.musicText{
+    position:relative;
+    width: 93%;
+    margin:3%;    
+    height: 35px;
+    background-color: #53b1cb;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.song-title {
+    border-radius: 5px;
+    background-color: #8dc1cf;
+    position: absolute;
+    white-space: nowrap;
+    font-style:italic;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 35px;
+    color: hsla(200, 81%, 11%, 0.855);
+    animation: scroll 14s linear infinite;
+}
+@keyframes scroll {
+    0% {
+        left: 100%  /* 初始位置：文本完全在盒子外的右侧 */
+      }
+      100% {
+        left: -100%;  /* 结束位置：文本完全移动到盒子外的左侧 */
+      }
+}
+.Illu03Box{
+    background-color: #0d1117c3;
+    text-align: center;
+    justify-content: center;
+    width: 98%;
+    box-sizing: border-box;
+    margin-left: 1%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 20px;
+
+}
+.Illu03Text{
+    font-style:italic;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 50px;
+    height: 50px;
+    color: #1f71ebd6;
 }

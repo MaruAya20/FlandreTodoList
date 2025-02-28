@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TodoApp</title>
     <link rel="stylesheet" href="./styles.css">
+    <script src="./node_modules/howler/dist/howler.core.min.js"></script>
 </head>
 <body>
     <div class="todo-app">
@@ -35,6 +37,39 @@
             Illustrator:applecaramel_(acaramel)
         </div>
     </div>
+    
+    <div class="musicBox">    
+        <div class="AudioBox">
+                <div class="ButtonBox">
+                    <button class="playPauseBtn" id="playPauseBtn">
+                        暂停
+                    </button>
+                    <button class="stopBtn" id="stopBtn">
+                        停止
+                    </button>
+                </div>
+                <div class="rangeBox01">
+                    <input type="range" class="volumeRange" id="progressRange" min="0" max="100" value="0" step="0.1">
+                    <input type="range" class="volumeRange" id="volumeRange" min="0" max="1" value="0.5" step="0.01">
+                </div>
+        </div>
+        <div class="AudioBox01">
+            <div class="ButtonBox">
+                <button class="playPauseBtn" id="preper">
+                    上一首
+                </button>
+                <button class="stopBtn" id="nexter">
+                    下一首
+                </button>
+            </div>
+    
+            <div class="musicText">
+                <div id="songTitle" class="song-title">这是一个仅供顺序播放的音乐播放器程序，专辑为：幻想遊戯 ＜眠＞ - まらしぃ</div>
+            </div>
+        
+        </div>
+        
+    </div>
 
     <div class="Illu02Box">
         <div class="Illu02Text">
@@ -42,8 +77,15 @@
         </div>
     </div>
 
+    <div class="contactBox Illu03Box">
+        <div class="Illu03Text">
+            <p>Contact Me: https://github.com/MaruAya20/</p>
+    </div>
+
     <script>
-        const { ipcRenderer } = require('electron');
+    const { ipcRenderer } = require('electron');
+
+
 
         // 加载待办事项
         async function loadTodos() {
@@ -111,6 +153,131 @@
 
         // 初始化加载待办事项
         loadTodos();
+
+
+    let soundFiles = []
+    let soundNames = [
+        "U.N.オーエンは寝てしまったのか - まらしぃ",
+        "眠月 - まらしぃ",
+        "緑眠のジェラシー - まらしぃ",
+        "上海昼寝馆 - まらしぃ",
+        "寝ヤージュ1969 - まらしぃ",
+        "もう寝息しか闻こえない - まらしぃ",
+        "おやすみ恋娘 - まらしぃ",
+        "远野睡眠物语 - まらしぃ",
+        "旧布団街道を行く - まらしぃ",
+        "Demysleep Feast - まらしぃ",
+        "眠色マスタースパーク - まらしぃ"
+    ]   
+    let soundlength= 11; 
+    for (let i = 0; i < soundlength; i++) {
+        soundFiles.push(`./audio/base${i}.mp3`);
+    }
+    Object.freeze(soundFiles);
+    let currentTrackIndex = 0
+    let isPlaying = true;
+    let sound;
+    
+    document.getElementById('playPauseBtn').addEventListener('click', () => {
+        if (isPlaying) {
+            sound.pause();
+            document.getElementById('playPauseBtn').innerHTML = '播放';
+        } else {
+            sound.play();
+            document.getElementById('playPauseBtn').innerHTML = '暂停';
+        }
+        isPlaying = !isPlaying;
+    });
+
+    document.getElementById('stopBtn').addEventListener('click', () => {
+        sound.stop();
+        document.getElementById('playPauseBtn').innerHTML = '播放';
+        document.getElementById('songTitle').innerHTML = '已停止播放 幻想遊戯 ＜眠＞ - まらしぃ';
+        songtitle.style.animation = `scroll 24s linear infinite`
+        isPlaying = false;
+    });
+
+    document.getElementById('volumeRange').addEventListener('input', (e) => {
+        const volume = e.target.value;
+        sound.volume(volume);
+    });
+
+    function updateProgress() {
+        const progress = sound.seek() / sound.duration();
+        document.getElementById('progressRange').value = progress * 100;
+    }
+
+    document.getElementById('progressRange').addEventListener('input', (e) => {
+        const progress = e.target.value / 100;
+        sound.seek(progress * sound.duration());
+    });
+
+    next,prep;
+
+    document.getElementById('preper').addEventListener('click', () => {
+        prep();
+    });
+    document.getElementById('nexter').addEventListener('click', () => {
+        next();
+    });
+  
+  
+
+    function loadAudio()
+    {
+  
+        sound = new Howl({
+            src: [soundFiles[currentTrackIndex]],
+            loop: false,
+            volume: 0.5,
+            onend(){
+                document.getElementById('songTitle').innerHTML = '切换下一首……';
+                sound.unload();
+                next();
+            },
+            onplay(){
+                document.getElementById('songTitle').innerHTML = '正在播放：'+soundNames[currentTrackIndex];
+            }, 
+            onpause(){
+                document.getElementById('songTitle').innerHTML = '正在暂停……';
+            }
+            
+            
+        });
+
+        const textWidth = soundNames[currentTrackIndex].length * 50;
+        songtitle = document.getElementById('songTitle');
+
+        const duration = textWidth / 50; 
+        console.log("the animation duration: ",duration);
+
+        songtitle.style.animation = `scroll ${duration}s linear infinite`;
+
+
+        sound.play();
+        isPlaying = true;
+        
+    }
+    loadAudio(currentTrackIndex);
+
+    
+    function next() {
+        currentTrackIndex = (currentTrackIndex + 1) % soundFiles.length;  // 循环播放
+        sound.stop();
+        isPlaying = false;
+        loadAudio(currentTrackIndex);
+
+    }
+
+    function prep(){
+        currentTrackIndex = (currentTrackIndex - 1 + soundFiles.length) % soundFiles.length;
+        sound.stop();
+        isPlaying = false;
+        loadAudio(currentTrackIndex);
+    }
+    
+    
+    setInterval(updateProgress, 1000);
     </script>
 </body>
 </html>
