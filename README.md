@@ -6,19 +6,7 @@ TodoApp is a simple Electron app for learning purposes and checking progress.
 
 This is a simple to-do list application where you can add, delete, and mark tasks as completed.  
 Click the checkbox before a task to mark it as completed, and click the delete button on the right to remove a task.  
-This application is built with Electron, and data is stored in local files.
-
-# 1.1.0 ver Update!  
-A function have been loaded in to FlandreTodolist 1.1.0.ver —— howler-based music player!  
-
-An album titled <font color=#DC143C>'幻想遊戯 ＜眠＞'</font> created by <font color=#FF69B4>Marasy</font> was included!  
-
-![2025-02-2814-30-45-ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/233268cb-d68a-4cbe-9a02-9bfeaca06746)
-
-
-This is a music player feature that only supports sequential playback, you can click the button to play, pause, etc., or drag the two sliders on the right - to achieve the purpose of adjusting the progress and volume!  
-
-
+This application is built with Electron, and data is stored in local files.  
 
 # FAQ  
   
@@ -62,3 +50,34 @@ else if causes confusion, please contact me!
 
 # Nothing But...
   there are so many technical problems while constructing and packing...I deserve more practice.
+
+
+  
+# 1.1.0 ver Update!  
+A function have been loaded in to FlandreTodolist 1.1.0.ver —— howler-based music player!  
+
+An album titled <font color=#DC143C>'幻想遊戯 ＜眠＞'</font> created by <font color=#FF69B4>Marasy</font> was included!  
+
+![2025-02-2814-30-45-ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/233268cb-d68a-4cbe-9a02-9bfeaca06746)
+
+
+This is a music player feature that only supports sequential playback, you can click the button to play, pause, etc., or drag the two sliders on the right - to achieve the purpose of adjusting the progress and volume!  
+
+
+# 1.3.0 ver Update!
+①A new theme —— Remilia's TodoApp is now available!  
+you can change the whole style of app by the button on up-right side, and will be memorized while you starting it next time...(ps: different theme has different default song!but you can still listen both albums)  
+
+![2025-03-03 10-48-56Part001](https://github.com/user-attachments/assets/039b3c4f-ae68-4397-9ed0-6cda2caa3c21)
+
+
+②and the sequel of  <font color=#DC143C>'幻想遊戯 ＜眠＞'</font> created by <font color=#FF69B4>Marasy</font>  ——<font color=#DC143C>'幻想遊戯 ＜眠＞ 2' has been added into musicplayer!  
+ 
+③clicking, dragging, fade-in and fade-out...more and more animation effects have been implemented.  
+
+
+
+
+
+
+
