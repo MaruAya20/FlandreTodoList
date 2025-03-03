@@ -1,0 +1,420 @@
+.todo-text02{
+    padding-top: 10px;
+    text-align: center;
+    font-size: small;
+    opacity: 0.4;
+}
+.completed{
+    text-decoration: line-through;
+    opacity: 0.4;
+    
+}
+.del{
+    color: #ff000d;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+}
+.item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    background-color: #f8d059;
+    border-radius: 20px;
+    width: 80%;
+    margin: 20px auto;
+    padding: 16px;
+    box-shadow: #a3a543 0 8px 20px;
+    cursor: move;
+    user-select: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.item.dragging {
+    opacity: 0.5;
+    transform: scale(1.02);
+    box-shadow: #a3a543 0 12px 24px;
+}
+.item.drag-over {
+    border-top: 7px solid #e0252f;
+    opacity: 0.5;
+}
+.todo-button{
+    outline: none;
+    width: 15%;
+    height: 52px;
+    border:2px solid #ffe493;
+    border-radius: 0 20px 20px 0;
+    text-align: center;
+    background: linear-gradient(to right,#e0252f,#f8d059);  
+    line-height: 52px;
+    color: #ffff;
+    font-style: italic;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 700;
+}
+.todo-input{
+    border: 1px solid #bbbbbb;
+    outline: none;
+    width: 60%;
+    height: 52px;
+    border-radius: 20px 0 0 20px;
+    padding-left: 15px;
+} 
+.todo-form{
+    margin-top: 20px;
+    margin-left: 30px;
+    display: flex;
+
+}
+.IlluText{
+    font-style:italic;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    color: hsla(91, 64%, 57%, 0.855);
+}
+.IlluBox{
+    background-color: #10a0de;
+    width: 98%;
+    box-sizing: border-box;
+    margin-left: 1%;
+    height: 50px;
+    padding-top: 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 25px;
+    animation: fadeInScale 0.5s ease-out forwards;
+    animation-delay: 0.6s;
+    opacity: 0;
+}
+.Flandre01{
+    border-radius: 10px;
+    margin-top: 20px;
+    max-width: 98%;
+    margin-left: 1%;
+    height: auto;
+}
+
+.title{
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+    /* margin-top: ;  margin塌陷，不讲细节*/
+
+}
+.todo-app{
+    width: 98%; 
+    overflow-y: auto;
+    box-sizing: border-box;
+    border-radius: 20px;
+    margin-top: 25px; 
+    margin-left: 1%;
+    padding-top: 30px;
+    background-color: #ffff;
+    padding-bottom: 30px;
+    animation: fadeInScale 0.5s ease-out forwards;
+    animation-delay: 0s;
+    opacity: 0;
+    height: auto;
+}
+body{           
+    /*借芙兰的颜色搞了个全局渐变 */
+    background: linear-gradient(to right,#e0252f,#f8d059);
+    overflow-x: hidden;  /* 禁用水平滚动条 */
+}
+
+.Illu02Text{
+    font-style:italic;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    color: hsla(166, 82%, 55%, 0.855);
+}
+.Illu02Box{
+    background-color: #186383;
+    width: 98%;
+    box-sizing: border-box;
+    margin-left: 1%;
+    height: 50px;
+    padding-top: 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+    animation: fadeInScale 0.5s ease-out forwards;
+    animation-delay: 1.2s;
+    opacity: 0;
+}
+.musicBox{
+    background-color: #82d9f3;
+    height:150px;
+    width: 98%;
+    box-sizing: border-box;
+    margin-left: 1%;
+    border-radius: 10px;
+    padding-top: 17px;
+    animation: fadeInScale 0.5s ease-out forwards;
+    animation-delay: 0.9s;
+    opacity: 0;
+}
+
+.AudioBox{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #4896ae;
+    width: 96%;
+    box-sizing: border-box;
+    height: 50px;
+    margin-left: 2%;
+    border-radius: 10px;    
+}
+.AudioBox01{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #377587;
+    width: 96%;
+    box-sizing: border-box;
+    height: 50px;
+    margin-left: 2%;
+    border-radius: 10px;    
+    margin-top: 15px;
+}
+.ButtonBox{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width:40%;
+    margin-left: 1%;
+
+}   
+.playPauseBtn{
+    background-color: #66e36c;
+    width: 50%;
+    box-sizing: border-box;
+    margin-left: 1%;
+    height: 35px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.stopBtn{
+    background-color: #e3ab66;
+    width: 50%;
+    box-sizing: border-box;
+    margin-left: 1%;
+    height: 35px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.volumeRange{
+    width: 50%;
+    box-sizing: border-box;
+    margin-right: 5%;
+    height: 40px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+
+}
+.rangeBox01{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 98%;
+    box-sizing: border-box;
+    margin-left: 1%;
+    height: 25px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-left: 3%;
+}
+.musicText{
+    position:relative;
+    width: 93%;
+    margin:3%;    
+    height: 35px;
+    background-color: #53b1cb;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.song-title {
+    border-radius: 5px;
+    background-color: #8dc1cf;
+    position: absolute;
+    white-space: nowrap;
+    font-style:italic;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 35px;
+    color: hsla(200, 81%, 11%, 0.855);
+    animation: scroll 14s linear infinite;
+}
+@keyframes scroll {
+    0% {
+        left: 100%  /* 初始位置：文本完全在盒子外的右侧 */
+      }
+      100% {
+        left: -100%;  /* 结束位置：文本完全移动到盒子外的左侧 */
+      }
+}
+.Illu03Box{
+    background-color: #bbc2cd;
+    text-align: center;
+    justify-content: center;
+    width: 98%;
+    box-sizing: border-box;
+    margin-left: 1%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 20px;
+    animation: fadeInScale 0.5s ease-out forwards;
+    animation-delay: 1.5s;
+    opacity: 0;
+}
+.Illu03Text{
+    font-style:italic;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 50px;
+    height: 50px;
+    color: #1f71ebd6;
+}
+
+@keyframes deleteAnimation {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.deleting {
+    animation: deleteAnimation 0.5s ease-in-out forwards;
+}
+
+@keyframes addAnimation {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.05);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+.adding {
+    animation: addAnimation 0.4s ease-out forwards;
+}
+
+@keyframes toggleAnimation {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(0.9);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.4;
+    }
+}
+.toggling {
+    animation: toggleAnimation 0.2s ease-out forwards;
+}
+
+@keyframes clickDefaultAnimation {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(0.9);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.clickDefault {
+    animation: clickDefaultAnimation 0.2s ease-in-out forwards;
+}
+
+.theme-toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    background: linear-gradient(to right,#e0252f,#f8d059);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.theme-toggle-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.character-image {
+    border-radius: 10px;
+    margin-top: 20px;
+    max-width: 98%;
+    margin-left: 1%;
+    height: auto;
+    opacity: 0;
+}
+
+.dark-theme-image {
+    display: none;
+}
+
+.light-theme-image {
+    display: block;
+}
+
+.light-theme-image.initialized {
+    animation: fadeInScale 0.5s ease-out forwards;
+    animation-delay: 0.3s;
+}
+
+.light-theme-image.clickDefault {
+    animation: clickDefaultAnimation 0.2s ease-in-out forwards !important;
+    opacity: 1;
+}
+
+@keyframes fadeInScale {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.05);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+} 

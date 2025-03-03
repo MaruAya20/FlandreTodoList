@@ -1,17 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TodoApp</title>
-    <link rel="stylesheet" href="./styles.css">
+
+    <script>
+        // 在页面加载前确定主题
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // 创建link元素但初始就禁用不需要的主题
+        const lightThemeLink = document.createElement('link');
+        lightThemeLink.rel = 'stylesheet';
+        lightThemeLink.href = './light-theme.css';
+        lightThemeLink.id = 'light-theme-style';
+        lightThemeLink.disabled = savedTheme === 'dark';
+
+        const darkThemeLink = document.createElement('link');
+        darkThemeLink.rel = 'stylesheet';
+        darkThemeLink.href = './dark-theme.css';
+        darkThemeLink.id = 'dark-theme-style';
+        darkThemeLink.disabled = savedTheme === 'light';
+
+        // 添加样式表
+        document.head.appendChild(lightThemeLink);
+        document.head.appendChild(darkThemeLink);
+    </script>
+
     <script src="./node_modules/howler/dist/howler.core.min.js"></script>
 </head>
+
 <body>
+
     <div class="todo-app">
-        <div class="title">芙兰朵露的Todo App</div>
-       
+
+        <div>
+            <button id="themeToggle" class="theme-toggle-btn">
+                     切换主题
+            </button>
+
+            <div class="title" id="appTitle">
+            
+            </div>
+        </div>
         <div class="todo-form">
             <input class="todo-input" placeholder="add a Todo" type="text" id="todoInput">
             <div class="todo-button" id="addTodoButton">add Todo</div>
@@ -30,28 +64,29 @@
         </div>
     </div>
 
-    <img class="Flandre01" src="./img/Flandre01.jpg" alt="">
+    <img class="character-image light-theme-image" id="Flandre01" src="./img/Flandre01.jpg" >
+    <img class="character-image dark-theme-image" id="Remilia01" src="./img/Remilia01.jpg" >
 
     <div class="IlluBox">
         <div class="IlluText">
             Illustrator:applecaramel_(acaramel)
         </div>
     </div>
-    
-    <div class="musicBox">    
+
+    <div class="musicBox">
         <div class="AudioBox">
-                <div class="ButtonBox">
-                    <button class="playPauseBtn" id="playPauseBtn">
-                        暂停
-                    </button>
-                    <button class="stopBtn" id="stopBtn">
-                        停止
-                    </button>
-                </div>
-                <div class="rangeBox01">
-                    <input type="range" class="volumeRange" id="progressRange" min="0" max="100" value="0" step="0.1">
-                    <input type="range" class="volumeRange" id="volumeRange" min="0" max="1" value="0.5" step="0.01">
-                </div>
+            <div class="ButtonBox">
+                <button class="playPauseBtn" id="playPauseBtn">
+                    暂停
+                </button>
+                <button class="stopBtn" id="stopBtn">
+                    停止
+                </button>
+            </div>
+            <div class="rangeBox01">
+                <input type="range" class="volumeRange" id="progressRange" min="0" max="100" value="0" step="0.1">
+                <input type="range" class="volumeRange" id="volumeRange" min="0" max="1" value="0.5" step="0.01">
+            </div>
         </div>
         <div class="AudioBox01">
             <div class="ButtonBox">
@@ -62,13 +97,13 @@
                     下一首
                 </button>
             </div>
-    
+
             <div class="musicText">
-                <div id="songTitle" class="song-title">这是一个仅供顺序播放的音乐播放器程序，专辑为：幻想遊戯 ＜眠＞ - まらしぃ</div>
+                <div id="songTitle" class="song-title">这是一个仅供顺序播放的音乐播放器程序，专辑为：幻想遊戯 ＜眠＞ 1&2 - まらしぃ</div>
             </div>
-        
+
         </div>
-        
+
     </div>
 
     <div class="Illu02Box">
@@ -77,207 +112,483 @@
         </div>
     </div>
 
-    <div class="contactBox Illu03Box">
+    <div class="Illu03Box">
         <div class="Illu03Text">
             <p>Contact Me: https://github.com/MaruAya20/</p>
-    </div>
+        </div>
 
-    <script>
-    const { ipcRenderer } = require('electron');
+        <script>
+            const { ipcRenderer } = require('electron');
 
+            // 主题切换逻辑
+            let currentTheme = document.documentElement.getAttribute('data-theme');
+            const themeToggle = document.getElementById('themeToggle');
+            const lightTheme = document.getElementById('light-theme-style');
+            const darkTheme = document.getElementById('dark-theme-style');
 
+            // 从localStorage加载保存的主题
+            document.addEventListener('DOMContentLoaded', () => {
+                // 根据预设的主题初始化界面
+                if (currentTheme === 'dark') {
+                    currentTrackIndex = 11;  // 在暗色主题下设置为第11首
+                    document.getElementById('appTitle').textContent = '蕾米莉亚的Todo App';
+                    document.getElementById('Remilia01').classList.add('initialized');
+                } else {
+                    currentTrackIndex = 0;   // 在亮色主题下设置为第1首
+                    document.getElementById('appTitle').textContent = '芙兰朵露的Todo App';
+                    document.getElementById('Flandre01').classList.add('initialized');
+                }
+                
+                loadAudio(currentTrackIndex);
+            });
 
-        // 加载待办事项
-        async function loadTodos() {
-            const todos = await ipcRenderer.invoke('get-todos');
-            const todoList = document.getElementById('todoList');
-            todoList.innerHTML = ''; // 清空当前列表
+            // 主题切换功能
+            themeToggle.addEventListener('click', () => {
+                // 移除之前的初始化类
+                document.getElementById('Flandre01').classList.remove('initialized');
+                document.getElementById('Remilia01').classList.remove('initialized');
+                
+                if (currentTheme === 'light') {
+                    enableDarkTheme();
+                    // 添加新的初始化类
+                    document.getElementById('Remilia01').classList.add('initialized');
+                } else {
+                    enableLightTheme();
+                    // 添加新的初始化类
+                    document.getElementById('Flandre01').classList.add('initialized');
+                }
+            });
 
-            todos.forEach(todo => {
-                const todoItem = document.createElement('div');
-                todoItem.className = 'item';
-                if (todo.completed) {
-                    todoItem.classList.add('completed');
+            function enableDarkTheme() {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                if (lightTheme) lightTheme.disabled = true;
+                if (darkTheme) darkTheme.disabled = false;
+                currentTheme = 'dark';
+                localStorage.setItem('theme', 'dark');
+                document.getElementById('appTitle').textContent = '蕾米莉亚的Todo App';
+                ipcRenderer.invoke('change-window-icon', true);
+                themeToggle.classList.add('clickDefault');
+                themeToggle.addEventListener('animationend', () => {
+                    themeToggle.classList.remove('clickDefault');
+                }, { once: true });
+            }
+
+            function enableLightTheme() {
+                document.documentElement.setAttribute('data-theme', 'light');
+                if (lightTheme) lightTheme.disabled = false;
+                if (darkTheme) darkTheme.disabled = true;
+                currentTheme = 'light';
+                localStorage.setItem('theme', 'light');
+                document.getElementById('appTitle').textContent = '芙兰朵露的Todo App';
+                ipcRenderer.invoke('change-window-icon', false);
+                themeToggle.classList.add('clickDefault');
+                themeToggle.addEventListener('animationend', () => {
+                    themeToggle.classList.remove('clickDefault');
+                }, { once: true });
+            }
+
+            // 加载待办事项
+            async function loadTodos(animationType = 'none') {
+                const todos = await ipcRenderer.invoke('get-todos');
+                const todoList = document.getElementById('todoList');
+                todoList.innerHTML = ''; // 清空当前列表
+
+                // 判断是否是首次加载
+                const isInitialLoad = !window.hasLoadedBefore;
+                if (isInitialLoad) {
+                    window.hasLoadedBefore = true;
                 }
 
-                const todoContent = `
+                // 创建单个todo项的函数
+                async function createTodoItem(todo, shouldAnimate) {
+                    const todoItem = document.createElement('div');
+                    todoItem.className = 'item';
+                    if (todo.completed) {
+                        todoItem.classList.add('completed');
+                    }
+
+                    // 添加拖拽属性
+                    todoItem.draggable = true;
+                    todoItem.dataset.id = todo.id;
+
+                    const todoContent = `
                     <div>
                         <input type="checkbox" ${todo.completed ? 'checked' : ''} class="todo-checkbox" data-id="${todo.id}" />
                         <span class="name">${todo.content}</span>
                     </div>
                     <div class="del" data-id="${todo.id}"> del </div>
                 `;
-                todoItem.innerHTML = todoContent;
-                todoList.appendChild(todoItem);
+                    todoItem.innerHTML = todoContent;
+                    todoList.appendChild(todoItem);
+
+                    // 添加动画效果
+                    if (shouldAnimate) {
+                        todoItem.classList.add('adding');
+                        todoItem.addEventListener('animationend', () => {
+                            todoItem.classList.remove('adding');
+                        });
+                        if (isInitialLoad) {
+                            // 首次加载时等待动画完成再继续
+                            await new Promise(resolve => setTimeout(resolve, 100));
+                        }
+                    }
+                }
+
+                // 根据不同情况处理todo项的创建
+                if (animationType === 'initial' || isInitialLoad) {
+                    // 首次加载，逐个添加动画
+                    for (let i = 0; i < todos.length; i++) {
+                        await createTodoItem(todos[i], true);
+                    }
+                } else if (animationType === 'add') {
+                    // 添加新项目时，只给最新项添加动画
+                    for (let i = 0; i < todos.length; i++) {
+                        const isLastItem = i === todos.length - 1;
+                        await createTodoItem(todos[i], isLastItem);
+                    }
+                } else {
+                    // 其他情况（删除、拖拽等），不使用动画
+                    for (let i = 0; i < todos.length; i++) {
+                        await createTodoItem(todos[i], false);
+                    }
+                }
+
+                // 添加拖拽事件监听器
+                const items = document.querySelectorAll('.item');
+                items.forEach(item => {
+                    item.addEventListener('dragstart', handleDragStart);
+                    item.addEventListener('dragend', handleDragEnd);
+                    item.addEventListener('dragover', handleDragOver);
+                    item.addEventListener('drop', handleDrop);
+                });
+            }
+
+            // 拖拽相关函数
+            function handleDragStart(e) {
+                e.target.classList.add('dragging');
+                e.dataTransfer.setData('text/plain', e.target.dataset.id);
+            }
+
+            function handleDragEnd(e) {
+                e.target.classList.remove('dragging');
+                document.querySelectorAll('.item').forEach(item => {
+                    item.classList.remove('drag-over');
+                });
+            }
+
+            function handleDragOver(e) {
+                e.preventDefault();
+                const draggingItem = document.querySelector('.dragging');
+                if (draggingItem !== e.target) {
+                    e.target.classList.add('drag-over');
+                }
+            }
+
+            async function handleDrop(e) {
+                e.preventDefault();
+                const draggedId = e.dataTransfer.getData('text/plain');
+                const dropZone = e.target.closest('.item');
+
+                if (dropZone && dropZone.dataset.id !== draggedId) {
+                    const draggedItem = document.querySelector(`[data-id="${draggedId}"]`);
+                    const dropZoneId = dropZone.dataset.id;
+
+                    await ipcRenderer.invoke('reorder-todos', draggedId, dropZoneId);
+                    loadTodos('none'); // 不使用动画
+                }
+
+                document.querySelectorAll('.item').forEach(item => {
+                    item.classList.remove('drag-over');
+                });
+            }
+
+            // 添加待办事项
+            document.getElementById('addTodoButton').addEventListener('click', async () => {
+                const addButton = document.getElementById('addTodoButton');
+         
+                const todoInput = document.getElementById('todoInput');
+                const content = todoInput.value.trim();
+
+                if (!content) {
+                    alert('请输入待办事项内容！');
+                    return;
+                }
+
+                addButton.classList.add('clickDefault');
+                addButton.addEventListener('animationend', () => {
+                    addButton.classList.remove('clickDefault');
+                }, { once: true });
+
+                console.log('Adding todo:', content);
+
+                await ipcRenderer.invoke('add-todo', content);
+                todoInput.value = ''; // 清空输入框
+                loadTodos('add'); // 使用添加动画
             });
-        }
 
-        // 添加待办事项
-        document.getElementById('addTodoButton').addEventListener('click', async () => {
-    const todoInput = document.getElementById('todoInput');
-    const content = todoInput.value.trim();
-    
-    if (!content) {
-        alert('请输入待办事项内容！');
-        return;
-    }
-    
-    console.log('Adding todo:', content);  // 打印输入内容
-    
-    await ipcRenderer.invoke('add-todo', content);
-    todoInput.value = ''; // 清空输入框
-    loadTodos(); // 刷新列表
-    });
+            // 添加回车键监听
+            document.getElementById('todoInput').addEventListener('keypress', async (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // 阻止默认的回车行为
+                    const addButton = document.getElementById('addTodoButton');
+                    const todoInput = document.getElementById('todoInput');
+                    const content = todoInput.value.trim();
+
+                    if (!content) {
+                        alert('请输入待办事项内容！');
+                        return;
+                    }
+
+                    addButton.classList.add('clickDefault');
+                    addButton.addEventListener('animationend', () => {
+                        addButton.classList.remove('clickDefault');
+                    }, { once: true });
+
+                    console.log('Adding todo:', content);
+
+                    await ipcRenderer.invoke('add-todo', content);
+                    todoInput.value = ''; // 清空输入框
+                    loadTodos('add'); // 使用添加动画
+                }
+            });
+
+            // 更新待办事项状态
+            document.getElementById('todoList').addEventListener('click', async (e) => {
+                const target = e.target;
+                if (target.classList.contains('todo-checkbox')) {
+                    const id = target.dataset.id;
+                    const completed = target.checked;
+
+                    // 先更新状态
+                    await ipcRenderer.invoke('toggle-todo', id, completed);
+
+                    // 重新加载列表以应用completed类和横线效果
+                    await loadTodos('none');
+
+                    if (completed) { // 只在完成任务时添加动画
+                        // 重新获取更新后的todoItem元素
+                        const updatedTodoItem = document.querySelector(`.item[data-id="${id}"]`);
+                        if (updatedTodoItem) {
+                            // 等待CSS transition完成
+                            await new Promise(resolve => setTimeout(resolve, 10));
+
+                            // 添加缩放动画
+                            updatedTodoItem.classList.add('toggling');
+                            await new Promise(resolve => {
+                                updatedTodoItem.addEventListener('animationend', () => {
+                                    updatedTodoItem.classList.remove('toggling');
+                                    resolve();
+                                }, { once: true });
+                            });
+                        }
+                    }
+                }
+            });
+
+            // 删除待办事项
+            document.getElementById('todoList').addEventListener('click', async (e) => {
+                const target = e.target;
+                if (target.classList.contains('del')) {
+                    const id = target.dataset.id;
+                    const todoItem = target.closest('.item');
+
+                    // 添加删除动画
+                    todoItem.classList.add('deleting');
+
+                    // 等待动画完成后再删除
+                    await new Promise(resolve => setTimeout(resolve, 500));
+
+                    await ipcRenderer.invoke('delete-todo', id);
+                    loadTodos('none'); // 不使用动画
+                }
+            });
+
+            // 初始化加载
+            loadTodos('initial');
 
 
-        // 更新待办事项状态
-        document.getElementById('todoList').addEventListener('click', async (e) => {
-            const target = e.target;
-            if (target.classList.contains('todo-checkbox')) {
-                const id = target.dataset.id;
-                const completed = target.checked;
-                await ipcRenderer.invoke('toggle-todo', id, completed);
-                loadTodos(); // 刷新列表
+            let soundFiles = []
+            let soundNames = [
+                "U.N.オーエンは寝てしまったのか - まらしぃ",
+                "眠月 - まらしぃ",
+                "緑眠のジェラシー - まらしぃ",
+                "上海昼寝馆 - まらしぃ",
+                "寝ヤージュ1969 - まらしぃ",
+                "もう寝息しか闻こえない - まらしぃ",
+                "おやすみ恋娘 - まらしぃ",
+                "远野睡眠物语 - まらしぃ",
+                "旧布団街道を行く - まらしぃ",
+                "Demysleep Feast - まらしぃ",
+                "眠色マスタースパーク - まらしぃ",
+                "眠き王女の為のセプテット - まらしぃ",
+                "二度寝リングナイト - まらしぃ",
+                "夢まで届け、不死の煙 - まらしぃ",
+                "少女ねむり - まらしぃ",
+                "枕川龍之介の河童 - まらしぃ",
+                "永夜の誘い - まらしぃ",
+                "睡眠少女 - まらしぃ",
+                "ネムインエイジア - まらしぃ",
+                "少女安眠 - まらしぃ",
+                "フォールオブドリーム - まらしぃ",
+                "小さな小さな眠将 - まらしぃ",
+                "眠気の瞳 - まらしぃ",
+                "安眠裁判 - まらしぃ"
+            ]
+            let soundlength = 24;
+            for (let i = 0; i < soundlength; i++) {
+                soundFiles.push(`./audio/base${i}.mp3`);
             }
-        });
+            Object.freeze(soundFiles);
+            let currentTrackIndex = 0
+            let isPlaying = true;
+            let sound;
 
-        // 删除待办事项
-        document.getElementById('todoList').addEventListener('click', async (e) => {
-            const target = e.target;
-            if (target.classList.contains('del')) {
-                const id = target.dataset.id;
-                await ipcRenderer.invoke('delete-todo', id);
-                loadTodos(); // 刷新列表
+
+            
+
+            document.getElementById('playPauseBtn').addEventListener('click', () => {
+                const button = document.getElementById('playPauseBtn');
+                button.classList.add('clickDefault');
+                button.addEventListener('animationend', () => {
+                    button.classList.remove('clickDefault');
+                }, { once: true });
+
+                if (isPlaying) {
+                    sound.pause();
+                    button.innerHTML = '播放';
+                } else {
+                    sound.play();
+                    button.innerHTML = '暂停';
+                }
+                isPlaying = !isPlaying;
+            });
+
+            document.getElementById('stopBtn').addEventListener('click', () => {
+                const button = document.getElementById('stopBtn');
+                button.classList.add('clickDefault');
+                button.addEventListener('animationend', () => {
+                    button.classList.remove('clickDefault');
+                }, { once: true });
+
+                sound.stop();
+                document.getElementById('playPauseBtn').innerHTML = '播放';
+                document.getElementById('songTitle').innerHTML = '已停止播放 幻想遊戯 ＜眠＞ 1&2 - まらしぃ';
+                songtitle.style.animation = `scroll 28s linear infinite`
+                isPlaying = false;
+            });
+
+            document.getElementById('volumeRange').addEventListener('input', (e) => {
+                const volume = e.target.value;
+                sound.volume(volume);
+            });
+
+            function updateProgress() {
+                const progress = sound.seek() / sound.duration();
+                document.getElementById('progressRange').value = progress * 100;
             }
-        });
 
-        // 初始化加载待办事项
-        loadTodos();
+            document.getElementById('progressRange').addEventListener('input', (e) => {
+                const progress = e.target.value / 100;
+                sound.seek(progress * sound.duration());
+            });
 
+            next, prep;
 
-    let soundFiles = []
-    let soundNames = [
-        "U.N.オーエンは寝てしまったのか - まらしぃ",
-        "眠月 - まらしぃ",
-        "緑眠のジェラシー - まらしぃ",
-        "上海昼寝馆 - まらしぃ",
-        "寝ヤージュ1969 - まらしぃ",
-        "もう寝息しか闻こえない - まらしぃ",
-        "おやすみ恋娘 - まらしぃ",
-        "远野睡眠物语 - まらしぃ",
-        "旧布団街道を行く - まらしぃ",
-        "Demysleep Feast - まらしぃ",
-        "眠色マスタースパーク - まらしぃ"
-    ]   
-    let soundlength= 11; 
-    for (let i = 0; i < soundlength; i++) {
-        soundFiles.push(`./audio/base${i}.mp3`);
-    }
-    Object.freeze(soundFiles);
-    let currentTrackIndex = 0
-    let isPlaying = true;
-    let sound;
-    
-    document.getElementById('playPauseBtn').addEventListener('click', () => {
-        if (isPlaying) {
-            sound.pause();
-            document.getElementById('playPauseBtn').innerHTML = '播放';
-        } else {
-            sound.play();
-            document.getElementById('playPauseBtn').innerHTML = '暂停';
-        }
-        isPlaying = !isPlaying;
-    });
+            document.getElementById('preper').addEventListener('click', () => {
+                const button = document.getElementById('preper');
+                button.classList.add('clickDefault');
+                button.addEventListener('animationend', () => {
+                    button.classList.remove('clickDefault');
+                }, { once: true });
 
-    document.getElementById('stopBtn').addEventListener('click', () => {
-        sound.stop();
-        document.getElementById('playPauseBtn').innerHTML = '播放';
-        document.getElementById('songTitle').innerHTML = '已停止播放 幻想遊戯 ＜眠＞ - まらしぃ';
-        songtitle.style.animation = `scroll 24s linear infinite`
-        isPlaying = false;
-    });
+                prep();
+            });
+            document.getElementById('nexter').addEventListener('click', () => {
+                const button = document.getElementById('nexter');
+                button.classList.add('clickDefault');
+                button.addEventListener('animationend', () => {
+                    button.classList.remove('clickDefault');
+                }, { once: true });
 
-    document.getElementById('volumeRange').addEventListener('input', (e) => {
-        const volume = e.target.value;
-        sound.volume(volume);
-    });
-
-    function updateProgress() {
-        const progress = sound.seek() / sound.duration();
-        document.getElementById('progressRange').value = progress * 100;
-    }
-
-    document.getElementById('progressRange').addEventListener('input', (e) => {
-        const progress = e.target.value / 100;
-        sound.seek(progress * sound.duration());
-    });
-
-    next,prep;
-
-    document.getElementById('preper').addEventListener('click', () => {
-        prep();
-    });
-    document.getElementById('nexter').addEventListener('click', () => {
-        next();
-    });
-  
-  
-
-    function loadAudio()
-    {
-  
-        sound = new Howl({
-            src: [soundFiles[currentTrackIndex]],
-            loop: false,
-            volume: 0.5,
-            onend(){
-                document.getElementById('songTitle').innerHTML = '切换下一首……';
-                sound.unload();
                 next();
-            },
-            onplay(){
-                document.getElementById('songTitle').innerHTML = '正在播放：'+soundNames[currentTrackIndex];
-            }, 
-            onpause(){
-                document.getElementById('songTitle').innerHTML = '正在暂停……';
+            });
+
+
+            function loadAudio() {
+                sound = new Howl({
+                    src: [soundFiles[currentTrackIndex]],
+                    loop: false,
+                    volume: 0.5,
+                    onend() {
+                        document.getElementById('songTitle').innerHTML = '切换下一首……';
+                        sound.unload();
+                        next();
+                    },
+                    onplay() {
+                        document.getElementById('songTitle').innerHTML = '正在播放：' + soundNames[currentTrackIndex];
+                    },
+                    onpause() {
+                        document.getElementById('songTitle').innerHTML = '正在暂停……';
+                    }
+                });
+
+                const textWidth = soundNames[currentTrackIndex].length * 50;
+                songtitle = document.getElementById('songTitle');
+
+                const duration = textWidth / 50;
+                console.log("the animation duration: ", duration);
+
+                songtitle.style.animation = `scroll ${duration}s linear infinite`;
+
+                sound.play();
+                isPlaying = true;
             }
+
+            function next() {
+                currentTrackIndex = (currentTrackIndex + 1) % soundFiles.length;  // 循环播放
+                sound.stop();
+                isPlaying = false;
+                loadAudio(currentTrackIndex);
+
+            }
+
+            function prep() {
+                currentTrackIndex = (currentTrackIndex - 1 + soundFiles.length) % soundFiles.length;
+                sound.stop();
+                isPlaying = false;
+                loadAudio(currentTrackIndex);
+            }
+
+
+            setInterval(updateProgress, 1000);
+
+            //一些只能拿来卖萌的监听
+            document.getElementById('Flandre01').addEventListener('click', async () => {
+                const flandreImage = document.getElementById('Flandre01');
+                flandreImage.classList.add('clickDefault');
+                flandreImage.addEventListener('animationend', () => {
+                    flandreImage.classList.remove('clickDefault');
+                }, { once: true });
             
-            
-        });
+                await new Promise(resolve => setTimeout(resolve, 500));
+                alert("你点击了芙兰朵露！(*´∀`)~♥");
+            });
 
-        const textWidth = soundNames[currentTrackIndex].length * 50;
-        songtitle = document.getElementById('songTitle');
+            document.getElementById('Remilia01').addEventListener('click', async () => {
 
-        const duration = textWidth / 50; 
-        console.log("the animation duration: ",duration);
-
-        songtitle.style.animation = `scroll ${duration}s linear infinite`;
-
-
-        sound.play();
-        isPlaying = true;
+                    const remiliaImage = document.getElementById('Remilia01');
+                    remiliaImage.classList.add('clickDefault');
+                    remiliaImage.addEventListener('animationend', () => {
+                        remiliaImage.classList.remove('clickDefault');
+                    }, { once: true });
+                
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    alert("你点击了蕾米莉亚！(*´∀`)~♥");
+                
+            });
         
-    }
-    loadAudio(currentTrackIndex);
-
-    
-    function next() {
-        currentTrackIndex = (currentTrackIndex + 1) % soundFiles.length;  // 循环播放
-        sound.stop();
-        isPlaying = false;
-        loadAudio(currentTrackIndex);
-
-    }
-
-    function prep(){
-        currentTrackIndex = (currentTrackIndex - 1 + soundFiles.length) % soundFiles.length;
-        sound.stop();
-        isPlaying = false;
-        loadAudio(currentTrackIndex);
-    }
-    
-    
-    setInterval(updateProgress, 1000);
-    </script>
+            
+        </script>
 </body>
+
 </html>
