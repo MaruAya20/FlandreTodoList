@@ -75,7 +75,7 @@ you can change the whole style of app by the button on up-right side, and will b
  
 ③clicking, dragging, fade-in and fade-out...more and more animation effects have been implemented.  
 
-
+④Oh...By the way, you can drag the todo-item to sort it yourself now.
 
 
 
